@@ -12,7 +12,7 @@ import (
 func main() {
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
-		dbURL = "postgres://appuser:apppassword@localhost:5432/appdb?sslmode=disable"
+		dbURL = "postgres://appuser:apppassword@localhost:5433/appdb?sslmode=disable"
 	}
 
 	db, err := store.NewPostgres(dbURL)
