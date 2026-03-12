@@ -75,9 +75,11 @@ func (p *Postgres) GetUserByID(id string) (*User, error) {
 	defer cancel()
 
 	var u User
-	err := p.Pool.QueryRow(ctx,
-		`SELECT id, name, email FROM users WHERE id = $1`, id).
-		Scan(&u.ID, &u.Name, &u.Email)
+	err := p.Pool.QueryRow(
+		ctx,
+		`SELECT id, name, email FROM users WHERE id = $1`,
+		id,
+	).Scan(&u.ID, &u.Name, &u.Email)
 	if err != nil {
 		return nil, err
 	}
@@ -90,11 +92,12 @@ func (p *Postgres) CreateUser(name, email string) (*User, error) {
 	defer cancel()
 
 	var u User
-	err := p.Pool.QueryRow(ctx,
+	err := p.Pool.QueryRow(
+		ctx,
 		`INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id, name, email`,
-		name, email,
+		name,
+		email,
 	).Scan(&u.ID, &u.Name, &u.Email)
-
 	if err != nil {
 		return nil, err
 	}
